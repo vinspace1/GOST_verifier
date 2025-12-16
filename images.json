@@ -1,0 +1,67 @@
+{
+  "source_docx": "input.docx",
+  "output_dir": "images_out",
+  "images_total": 5,
+  "images": [
+    {
+      "image_index": 1,
+      "rid": "rId40",
+      "block_index": 187,
+      "paragraph_index": 174,
+      "run_index": 0,
+      "saved_path": "images_out/img_0001_image1.png",
+      "original_filename": "image1.png",
+      "caption": "",
+      "caption_number": "",
+      "caption_title": ""
+    },
+    {
+      "image_index": 2,
+      "rid": "rId41",
+      "block_index": 188,
+      "paragraph_index": 175,
+      "run_index": 0,
+      "saved_path": "images_out/img_0002_image2.png",
+      "original_filename": "image2.png",
+      "caption": "",
+      "caption_number": "",
+      "caption_title": ""
+    },
+    {
+      "image_index": 3,
+      "rid": "rId50",
+      "block_index": 216,
+      "paragraph_index": 203,
+      "run_index": 0,
+      "saved_path": "images_out/img_0003_image3.jpeg",
+      "original_filename": "image3.jpeg",
+      "caption": "",
+      "caption_number": "",
+      "caption_title": ""
+    },
+    {
+      "image_index": 4,
+      "rid": "rId53",
+      "block_index": 231,
+      "paragraph_index": 217,
+      "run_index": 0,
+      "saved_path": "images_out/img_0004_image6.png",
+      "original_filename": "image6.png",
+      "caption": "",
+      "caption_number": "",
+      "caption_title": ""
+    },
+    {
+      "image_index": 5,
+      "rid": "rId142",
+      "block_index": 441,
+      "paragraph_index": 426,
+      "run_index": 0,
+      "saved_path": "images_out/img_0005_image7.png",
+      "original_filename": "image7.png",
+      "caption": "",
+      "caption_number": "",
+      "caption_title": ""
+    }
+  ]
+}
