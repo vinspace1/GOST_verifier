@@ -1,0 +1,5 @@
+pyinstaller>=5.0
+jsonschema>=4.0
+python-docx>=0.8.11
+Pillow
+lxml
