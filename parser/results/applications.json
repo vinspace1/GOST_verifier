@@ -1,6 +1,257 @@
 {
-  "appendices": [],
+  "appendices": [
+    {
+      "kind": "appendix",
+      "title": "Приложение A (обязательное / рекомендуемое / справочное) [Наименование Приложения A]",
+      "id": "A",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 182,
+        "paragraph_index": 170
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение B (обязательное / рекомендуемое / справочное) [Наименование Приложения B]",
+      "id": "B",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 196,
+        "paragraph_index": 184
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение C (обязательное / рекомендуемое / справочное) [Наименование Приложения C]",
+      "id": "C",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 214,
+        "paragraph_index": 202
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение D (обязательное / рекомендуемое / справочное) [Наименование Приложения D]",
+      "id": "D",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 236,
+        "paragraph_index": 223
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение E (обязательное / рекомендуемое / справочное) [Наименование Приложения E]",
+      "id": "E",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 245,
+        "paragraph_index": 232
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение F (обязательное / рекомендуемое / справочное) [Наименование Приложения F]",
+      "id": "F",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 254,
+        "paragraph_index": 241
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение G (обязательное / рекомендуемое / справочное) [Наименование Приложения G]",
+      "id": "G",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 263,
+        "paragraph_index": 250
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение H (обязательное / рекомендуемое / справочное) [Наименование Приложения H]",
+      "id": "H",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 272,
+        "paragraph_index": 259
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение J (обязательное / рекомендуемое / справочное) [Наименование Приложения J]",
+      "id": "J",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 281,
+        "paragraph_index": 268
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение K (обязательное / рекомендуемое / справочное) [Наименование Приложения K]",
+      "id": "K",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 291,
+        "paragraph_index": 278
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение L (обязательное / рекомендуемое / справочное) [Наименование Приложения L]",
+      "id": "L",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 301,
+        "paragraph_index": 288
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение M (обязательное / рекомендуемое / справочное) [Наименование Приложения M]",
+      "id": "M",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 310,
+        "paragraph_index": 297
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение N (обязательное / рекомендуемое / справочное) [Наименование Приложения N]",
+      "id": "N",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 320,
+        "paragraph_index": 307
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение O (обязательное / рекомендуемое / справочное) [Наименование Приложения O]",
+      "id": "O",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 329,
+        "paragraph_index": 316
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение P (обязательное / рекомендуемое / справочное) [Наименование Приложения P]",
+      "id": "P",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 338,
+        "paragraph_index": 325
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение Q (обязательное / рекомендуемое / справочное) [Наименование Приложения Q]",
+      "id": "Q",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 346,
+        "paragraph_index": 333
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение R (обязательное / рекомендуемое / справочное) [Наименование Приложения R]",
+      "id": "R",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 354,
+        "paragraph_index": 341
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение S (обязательное / рекомендуемое / справочное) [Наименование Приложения S]",
+      "id": "S",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 363,
+        "paragraph_index": 350
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение T (обязательное / рекомендуемое / справочное) [Наименование Приложения T]",
+      "id": "T",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 372,
+        "paragraph_index": 359
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение U (обязательное / рекомендуемое / справочное) [Наименование Приложения U]",
+      "id": "U",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 381,
+        "paragraph_index": 368
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение V (обязательное / рекомендуемое / справочное) [Наименование Приложения V]",
+      "id": "V",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 390,
+        "paragraph_index": 377
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение W (обязательное / рекомендуемое / справочное) [Наименование Приложения W]",
+      "id": "W",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 399,
+        "paragraph_index": 386
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение X (обязательное / рекомендуемое / справочное) [Наименование Приложения X]",
+      "id": "X",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 407,
+        "paragraph_index": 394
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение Y (обязательное / рекомендуемое / справочное) [Наименование Приложения Y]",
+      "id": "Y",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 416,
+        "paragraph_index": 403
+      }
+    },
+    {
+      "kind": "appendix",
+      "title": "Приложение Z (обязательное / рекомендуемое / справочное) [Переменная часть наименования Приложения Z]. (на CD-диске)",
+      "id": "Z",
+      "heading_style": "9.000_№ Приложения",
+      "position": {
+        "block_index": 425,
+        "paragraph_index": 412
+      }
+    }
+  ],
   "summary": {
-    "appendices_total": 0
+    "appendices_total": 25
   }
 }

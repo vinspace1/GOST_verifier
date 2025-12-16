@@ -25,23 +25,10 @@ def _style_name(paragraph: Paragraph) -> str:
         return ""
 
 def _is_heading(paragraph: Paragraph) -> bool:
-    """
-    Считаем 'заголовком' абзацы со стилями:
-    - Heading 1/2/3... (англ)
-    - Заголовок 1/2/3... (рус)
-    При желании можно расширить список.
-    """
     name = _style_name(paragraph).lower()
-    return name.startswith("heading") or name.startswith("заголовок")
+    return "приложения" in name
 
 def _extract_letter_or_id(title: str) -> Optional[str]:
-    """
-    Пытаемся вытащить идентификатор после слова ПРИЛОЖЕНИЕ:
-    'ПРИЛОЖЕНИЕ А ...' -> 'А'
-    'ПРИЛОЖЕНИЕ 1 ...' -> '1'
-    'ПРИЛОЖЕНИЕ №2 ...' -> '2'
-    Если не нашли — None.
-    """
     t = _normalize(title)
     m = re.match(r"^\s*ПРИЛОЖЕНИЕ\s+(?:№\s*)?([A-ZА-ЯЁ]|\d+)\b", t, flags=re.IGNORECASE)
     return m.group(1) if m else None
@@ -63,15 +50,15 @@ def find_appendices_in_headings(docx_path: str) -> List[Dict[str, Any]]:
 
         if not _is_heading(item):
             continue
-
+        print(item.text)
         if not APP_RE.match(text):
             continue
 
         appendices.append({
             "kind": "appendix",
             "title": text,
-            "id": _extract_letter_or_id(text),   # буква/номер (если удалось)
-            "heading_style": _style_name(item),  # какой стиль заголовка
+            "id": _extract_letter_or_id(text),
+            "heading_style": _style_name(item),
             "position": {
                 "block_index": block_index,
                 "paragraph_index": paragraph_index,
