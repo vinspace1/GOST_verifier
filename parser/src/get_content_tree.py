@@ -10,10 +10,19 @@ import json
 
 HEADING_RE = re.compile(r"^(heading|заголовок)\s*(\d+)$", re.IGNORECASE)
 
-HEADING_NUM_RE = re.compile(
-    r"^\s*(?P<num>\d+(?:\.\d+)*)(?:[.)])?\s+(?P<title>.+?)\s*$"
+NUM_HEADING_RE = re.compile(
+    r"^\d+(\.\d+)*\s+.+$"
 )
 
+def parse_numbered_heading(text: str) -> Optional[tuple[str, str, int]]:
+    m = NUM_HEADING_RE.match(text or "")
+    if not m:
+        return None
+    name = m.group(0)
+    num = name.split()[0]
+    title = name.split()[1].strip()
+    level = len(num.split("."))
+    return num, title, level
 def heading_level(p: Paragraph) -> Optional[int]:
     name = (p.style.name or "").strip()
     m = HEADING_RE.match(name)
@@ -27,7 +36,7 @@ def split_number_from_heading_text(text: str) -> tuple[str, str]:
     Возвращает (number, title).
     Если номер не найден — number="" и title=исходный текст.
     """
-    m = HEADING_NUM_RE.match(text or "")
+    m = NUM_HEADING_RE.match(text or "")
     if not m:
         return "", (text or "").strip()
     return m.group("num"), m.group("title").strip()

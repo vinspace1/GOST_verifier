@@ -195,4 +195,4 @@ def get_results(path):
     print(f"OK: extracted {result['images_total']} images -> {result['output_dir']}, json -> images.json")
 
 if __name__ == '__main__':
-    get_results("../../input.docx")
+    get_results("../../original.docx")
