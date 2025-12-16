@@ -1,12 +1,11 @@
 {
   "source_docx": "input.docx",
   "output_dir": "images_out",
-  "images_total": 5,
+  "images_total": 7,
   "images": [
     {
       "image_index": 1,
       "rid": "rId40",
-      "block_index": 187,
       "paragraph_index": 174,
       "run_index": 0,
       "saved_path": "images_out/img_0001_image1.png",
@@ -18,7 +17,6 @@
     {
       "image_index": 2,
       "rid": "rId41",
-      "block_index": 188,
       "paragraph_index": 175,
       "run_index": 0,
       "saved_path": "images_out/img_0002_image2.png",
@@ -30,19 +28,17 @@
     {
       "image_index": 3,
       "rid": "rId50",
-      "block_index": 216,
       "paragraph_index": 203,
       "run_index": 0,
       "saved_path": "images_out/img_0003_image3.jpeg",
       "original_filename": "image3.jpeg",
-      "caption": "",
+      "caption": "Рисунок С. 1 - Расположение зональных микрофонов (шп. 3-3А, лобовая стойка рамы фонаря) и пульта управления кабинного (шп. 3-4А, КПП)",
       "caption_number": "",
       "caption_title": ""
     },
     {
       "image_index": 4,
       "rid": "rId53",
-      "block_index": 231,
       "paragraph_index": 217,
       "run_index": 0,
       "saved_path": "images_out/img_0004_image6.png",
@@ -54,11 +50,32 @@
     {
       "image_index": 5,
       "rid": "rId142",
-      "block_index": 441,
       "paragraph_index": 426,
       "run_index": 0,
       "saved_path": "images_out/img_0005_image7.png",
       "original_filename": "image7.png",
+      "caption": "Рисунок Z. 1 – [Наименование рисунка]",
+      "caption_number": "",
+      "caption_title": ""
+    },
+    {
+      "image_index": 6,
+      "rid": "rId51",
+      "paragraph_index": 1028,
+      "run_index": 0,
+      "saved_path": "images_out/img_0006_image4.jpeg",
+      "original_filename": "image4.jpeg",
+      "caption": "",
+      "caption_number": "",
+      "caption_title": ""
+    },
+    {
+      "image_index": 7,
+      "rid": "rId52",
+      "paragraph_index": 1029,
+      "run_index": 0,
+      "saved_path": "images_out/img_0007_image5.jpeg",
+      "original_filename": "image5.jpeg",
       "caption": "",
       "caption_number": "",
       "caption_title": ""
