@@ -5,9 +5,9 @@
     "match": false,
     "where_found": null,
     "position": {
-      "block_index": 1,
-      "after_paragraph_index": 1,
-      "prev_paragraph_text": "<Наименование организации>"
+      "block_index": 0,
+      "after_paragraph_index": 0,
+      "prev_paragraph_text": null
     }
   },
   {
@@ -16,9 +16,9 @@
     "match": false,
     "where_found": null,
     "position": {
-      "block_index": 130,
-      "after_paragraph_index": 129,
-      "prev_paragraph_text": "В настоящем документе используются следующие сокращения:"
+      "block_index": 3,
+      "after_paragraph_index": 2,
+      "prev_paragraph_text": null
     }
   },
   {
@@ -27,8 +27,8 @@
     "match": false,
     "where_found": null,
     "position": {
-      "block_index": 191,
-      "after_paragraph_index": 189,
+      "block_index": 5,
+      "after_paragraph_index": 3,
       "prev_paragraph_text": null
     }
   },
@@ -38,9 +38,130 @@
     "match": false,
     "where_found": null,
     "position": {
-      "block_index": 200,
-      "after_paragraph_index": 197,
-      "prev_paragraph_text": "Например:"
+      "block_index": 17,
+      "after_paragraph_index": 14,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 5,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 19,
+      "after_paragraph_index": 15,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 6,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 26,
+      "after_paragraph_index": 21,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 7,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 101,
+      "after_paragraph_index": 95,
+      "prev_paragraph_text": "<Перевод расшифровки латинских в одном поле с латинской расшифровкой через «/» и Shift+Enter>"
+    }
+  },
+  {
+    "table_index": 8,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 141,
+      "after_paragraph_index": 134,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 9,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 145,
+      "after_paragraph_index": 137,
+      "prev_paragraph_text": "Выводы"
+    }
+  },
+  {
+    "table_index": 10,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 152,
+      "after_paragraph_index": 143,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 11,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 160,
+      "after_paragraph_index": 150,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 12,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 170,
+      "after_paragraph_index": 159,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 13,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 177,
+      "after_paragraph_index": 165,
+      "prev_paragraph_text": "В настоящем документе имеются ссылки на следующие документы:"
+    }
+  },
+  {
+    "table_index": 14,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 222,
+      "after_paragraph_index": 209,
+      "prev_paragraph_text": "Пример оформления рисунка состоящего из нескольких видов (включить отображение сетки таблиц)"
+    }
+  },
+  {
+    "table_index": 15,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 436,
+      "after_paragraph_index": 422,
+      "prev_paragraph_text": "Таблица Z. 1 - Содержимое электронного архива 25-XX-XX-XXXX-RPT_Приложениe_Z_на_CD/001 (*.zip)"
     }
   }
 ]

@@ -38,7 +38,17 @@ def check_sections_presence_and_order(data: Dict) -> List[Dict]:
             if found < idx:
                 issues.append(_issue("section_order", f"Section {req} is out of order", "warning"))
             idx = found + 1
-    return issues
+    # Deduplicate issues (avoid repeated identical findings)
+    seen = set()
+    deduped: List[Dict] = []
+    for it in issues:
+        key = (it.get('rule'), it.get('message'), it.get('page'))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(it)
+
+    return deduped
 
 
 def check_section_numbering_format(data: Dict) -> List[Dict]:

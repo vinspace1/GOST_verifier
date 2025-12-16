@@ -5,6 +5,7 @@ import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from typing import List
+import traceback
 
 
 class VerifierGUI(tk.Tk):
@@ -73,10 +74,17 @@ class VerifierGUI(tk.Tk):
 
         for relp, outname in parsers:
             abs_p = os.path.join(os.getcwd(), relp)
+            print(f"DBG: loading parser module from: {abs_p}")
+            print(f"DBG: document absolute path: {abs_doc} exists={os.path.exists(abs_doc)}")
             try:
                 import importlib.util
-                spec = importlib.util.spec_from_file_location('parser_module', abs_p)
+                # use unique module name per parser file to avoid import conflicts
+                base = os.path.splitext(os.path.basename(relp))[0]
+                mod_name = f'parser_{base}'
+                spec = importlib.util.spec_from_file_location(mod_name, abs_p)
                 mod = importlib.util.module_from_spec(spec)
+                # ensure module is visible in sys.modules during execution (dataclasses expect it)
+                sys.modules[mod_name] = mod
                 try:
                     spec.loader.exec_module(mod)
                 except ModuleNotFoundError as me:
@@ -96,11 +104,13 @@ class VerifierGUI(tk.Tk):
 
                 # Call parser functions directly when available
                 if hasattr(mod, 'build_tree_by_numbering'):
+                    print(f"DBG: calling build_tree_by_numbering with {abs_doc}")
                     tree = mod.build_tree_by_numbering(abs_doc)
                     with open(outpath, 'w', encoding='utf-8') as f:
                         json.dump(tree, f, ensure_ascii=False, indent=2)
                     produced.append(outpath)
                 elif hasattr(mod, 'check_tables_captions'):
+                    print(f"DBG: calling check_tables_captions with {abs_doc}")
                     res = mod.check_tables_captions(abs_doc)
                     # if module exposes results_to_dict, use it
                     if hasattr(mod, 'results_to_dict'):
@@ -111,12 +121,14 @@ class VerifierGUI(tk.Tk):
                         json.dump(payload, f, ensure_ascii=False, indent=2)
                     produced.append(outpath)
                 elif hasattr(mod, 'extract_images_to_folder_and_json'):
+                    print(f"DBG: calling extract_images_to_folder_and_json with {abs_doc}")
                     payload = mod.extract_images_to_folder_and_json(abs_doc, json_path=outpath)
                     # function already writes json when called normally, but ensure file exists
                     with open(outpath, 'w', encoding='utf-8') as f:
                         json.dump(payload, f, ensure_ascii=False, indent=2)
                     produced.append(outpath)
                 elif hasattr(mod, 'split_by_sections_with_nesting_text_numbering'):
+                    print(f"DBG: calling split_by_sections_with_nesting_text_numbering with {abs_doc}")
                     tree = mod.split_by_sections_with_nesting_text_numbering(abs_doc)
                     with open(outpath, 'w', encoding='utf-8') as f:
                         json.dump(tree, f, ensure_ascii=False, indent=2)
@@ -133,7 +145,11 @@ class VerifierGUI(tk.Tk):
                         produced.append(outpath)
 
             except Exception as e:
-                print('Parser', relp, 'failed:', e)
+                tb = traceback.format_exc()
+                try:
+                    messagebox.showerror('Parser error', f'Parser {relp} failed:\n{tb}')
+                except Exception:
+                    print('Parser', relp, 'failed:', tb)
 
         return produced
 
@@ -215,6 +231,18 @@ class VerifierGUI(tk.Tk):
                 except Exception:
                     continue
 
+                # If parser produced a plain list, wrap it into the expected dict
+                list_key_map = {
+                    'header_numbers.json': 'sections',
+                    'content_tree.json': 'sections',
+                    'tables.json': 'tables',
+                    'images.json': 'figures',
+                }
+                if isinstance(pdata, list):
+                    key = list_key_map.get(name)
+                    if key:
+                        pdata = {key: pdata, 'file': os.path.abspath(jpath)}
+
                 for fn in funcs:
                     try:
                         res = fn(pdata)
@@ -228,11 +256,189 @@ class VerifierGUI(tk.Tk):
             except Exception:
                 combined = {}
 
-            out = {'per_file': per_file_results, 'combined': combined}
-            pretty = json.dumps(out, ensure_ascii=False, indent=2)
+            # Merge per-file results into combined['checks'] and ensure all standard checks present
+            merged_checks: List[Dict] = []
+
+            # Standard check ids (the seven ГОСТ checks)
+            standard_cids = [
+                'section_presence',
+                'section_numbering',
+                'page_numbering',
+                'table_captions',
+                'figure_captions',
+                'formulas',
+                'appendices',
+            ]
+
+            # start from existing combined checks if any
+            if isinstance(combined, dict) and combined.get('checks'):
+                merged_checks.extend(combined.get('checks', []))
+
+            # map validator function names to check ids used in combined format
+            validator_to_cid = {
+                'check_sections_presence_and_order': 'section_presence',
+                'check_section_numbering_format': 'section_numbering',
+                'check_page_numbering_rules': 'page_numbering',
+                'check_tables_format': 'table_captions',
+                'check_figures_format': 'figure_captions',
+                'check_formulas_format': 'formulas',
+                'check_appendices_format': 'appendices',
+            }
+
+            def find_check(cid: str):
+                for c in merged_checks:
+                    if c.get('check_id') == cid:
+                        return c
+                return None
+
+            # mapping check_id to default Russian messages
+            default_messages = {
+                'section_presence': ('Разделы присутствуют в требуемом объёме.', 'Отсутствуют требуемые разделы.'),
+                'section_numbering': ('Нумерация разделов соответствует ГОСТ 2.105.', 'Обнаружены ошибки в нумерации разделов.'),
+                'page_numbering': ('Нумерация страниц соответствует требованиям.', 'Обнаружены ошибки в нумерации страниц.'),
+                'table_captions': ('Оформление подписей таблиц соответствует требованиям.', 'Обнаружены ошибки в оформлении таблиц.'),
+                'figure_captions': ('Оформление подписей рисунков соответствует требованиям.', 'Обнаружены ошибки в оформлении рисунков.'),
+                'formulas': ('Оформление формул соответствует требованиям.', 'Обнаружены ошибки в оформлении формул.'),
+                'appendices': ('Приложения оформлены верно.', 'Ошибки в содержании или оформлении приложений.'),
+            }
+
+            for pf in per_file_results:
+                vid = pf.get('validator')
+                cid = validator_to_cid.get(vid, vid)
+                issues = pf.get('issues') or []
+                errors_list: List[Dict] = []
+                for it in issues:
+                    err_page = it.get('page')
+                    det = it.get('details') or {}
+                    elem = None
+                    if isinstance(det, dict):
+                        elem = det.get('title') or det.get('element') or det.get('name')
+                    errors_list.append({
+                        'page': err_page,
+                        'element': elem or it.get('message'),
+                        'rule': it.get('rule'),
+                        'description': it.get('message'),
+                        'suggestion': (det.get('suggestion') if isinstance(det, dict) else None) or ''
+                    })
+
+                existing = find_check(cid)
+                if existing is None:
+                    # create a new check entry
+                    passed = not bool(errors_list)
+                    msg_pass, msg_fail = default_messages.get(cid, ('Passed', 'Found issues'))
+                    entry = {
+                        'check_id': cid,
+                        'status': 'PASSED' if passed else 'FAILED',
+                        'message': msg_pass if passed else msg_fail,
+                    }
+                    if errors_list:
+                        entry['errors'] = errors_list
+                    merged_checks.append(entry)
+                else:
+                    # merge errors into existing check
+                    if errors_list:
+                        existing.setdefault('errors', [])
+                        existing['errors'].extend(errors_list)
+                        existing['status'] = 'FAILED'
+                        # update message to failed Russian message
+                        msg_pass, msg_fail = default_messages.get(existing.get('check_id'), ('Passed', 'Found issues'))
+                        existing['message'] = msg_fail
+
+            # ensure all standard checks are present (mark passed if no errors)
+            for cid in standard_cids:
+                ex = find_check(cid)
+                if ex is None:
+                    msg_pass, msg_fail = default_messages.get(cid, ('Passed', 'Found issues'))
+                    merged_checks.append({'check_id': cid, 'status': 'PASSED', 'message': msg_pass})
+
+            # Final deduplication: merge entries with same check_id, consolidate and dedupe errors
+            deduped_checks_map = {}
+            for entry in merged_checks:
+                cid = entry.get('check_id')
+                if cid not in deduped_checks_map:
+                    # shallow copy to avoid mutating original
+                    deduped_checks_map[cid] = {k: v for k, v in entry.items() if k != 'errors'}
+                    deduped_checks_map[cid].setdefault('errors', [])
+                    if entry.get('errors'):
+                        deduped_checks_map[cid]['errors'].extend(entry.get('errors'))
+                else:
+                    # merge errors
+                    if entry.get('errors'):
+                        deduped_checks_map[cid].setdefault('errors', [])
+                        deduped_checks_map[cid]['errors'].extend(entry.get('errors'))
+                    # if any entry says FAILED, mark as FAILED
+                    if entry.get('status') == 'FAILED':
+                        deduped_checks_map[cid]['status'] = 'FAILED'
+
+            # dedupe errors per check
+            final_checks: List[Dict] = []
+            for cid, entry in deduped_checks_map.items():
+                errs = entry.get('errors') or []
+                seen_err = set()
+                uniq_errs: List[Dict] = []
+                for e in errs:
+                    key = (e.get('page'), e.get('element'), e.get('rule'), e.get('description'))
+                    if key in seen_err:
+                        continue
+                    seen_err.add(key)
+                    uniq_errs.append(e)
+                if uniq_errs:
+                    entry['errors'] = uniq_errs
+                    # ensure message is failure russian message
+                    msg_pass, msg_fail = default_messages.get(cid, ('Passed', 'Found issues'))
+                    entry['message'] = msg_fail
+                    entry['status'] = 'FAILED'
+                else:
+                    entry.pop('errors', None)
+                    # ensure message is pass russian message
+                    msg_pass, msg_fail = default_messages.get(cid, ('Passed', 'Found issues'))
+                    entry['message'] = msg_pass
+                    entry['status'] = 'PASSED'
+                final_checks.append(entry)
+
+            # replace merged_checks with deduplicated final list
+            merged_checks = final_checks
+
+            # recompute summary
+            total = len(merged_checks)
+            passed = sum(1 for c in merged_checks if c.get('status') == 'PASSED')
+            failed = total - passed
+            if failed == 0:
+                compliance = 'COMPLIANT'
+            elif passed == 0:
+                compliance = 'NON_COMPLIANT'
+            else:
+                compliance = 'PARTIALLY_COMPLIANT'
+
+            # document name should be basename (not full path)
+            doc_name = os.path.basename(doc)
+
+            new_combined = {
+                'document_name': doc_name,
+                'compliance_status': compliance,
+                'checks': merged_checks,
+                'summary': {'total_checks': total, 'passed': passed, 'failed': failed}
+            }
+
+            # Attempt to generate an LLM commentary using local llama.cpp if available
+            try:
+                from . import llm_local
+                if llm_local.is_available():
+                    try:
+                        comment = llm_local.generate_comment(new_combined)
+                        new_combined['llm_comment'] = comment
+                    except Exception as e:
+                        new_combined['llm_error'] = str(e)
+            except Exception:
+                # no llm_local available or import failed -> skip silently
+                pass
+
+            # Present only the combined report (no per-file section)
+            self.result = new_combined
+            pretty = json.dumps(new_combined, ensure_ascii=False, indent=2)
             self.txt.delete('1.0', tk.END)
             self.txt.insert('1.0', pretty)
-            self.result = out
+
             return
 
         # Fallback: execute core as external process
