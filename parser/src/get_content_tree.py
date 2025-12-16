@@ -86,14 +86,14 @@ def split_by_sections_with_nesting_text_numbering(docx_path: str) -> List[Dict[s
 
     return [to_dict(ch) for ch in root.children]
 
-if __name__ == "__main__":
-    tree = split_by_sections_with_nesting_text_numbering("../../input.docx")
+def print_tree(nodes, indent=0):
+    for n in nodes:
+        prefix = (n["number"] + " ") if n["number"] else ""
+        print("  " * indent + f"- (H{n['level']}) {prefix}{n['title']}")
+        print_tree(n["children"], indent + 1)
 
-    def print_tree(nodes, indent=0):
-        for n in nodes:
-            prefix = (n["number"] + " ") if n["number"] else ""
-            print("  " * indent + f"- (H{n['level']}) {prefix}{n['title']}")
-            print_tree(n["children"], indent + 1)
-    print_tree(tree)
-    with open("../results/parsed.json", "w", encoding="utf-8") as f:
+def get_result(path):
+    tree = split_by_sections_with_nesting_text_numbering(f"../../{path}")
+    print(tree)
+    with open("../results/content_tree.json", "w", encoding="utf-8") as f:
         json.dump(tree, f, ensure_ascii=False, indent=2)

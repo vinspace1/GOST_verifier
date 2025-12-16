@@ -79,15 +79,13 @@ def build_tree_by_numbering(docx_path: str) -> List[Dict[str, Any]]:
 
     return [to_dict(ch) for ch in root.children]
 
-if __name__ == "__main__":
-    tree = build_tree_by_numbering("../../input.docx")
-
-    def print_tree(nodes, indent=0):
+def print_tree(nodes, indent=0):
         for n in nodes:
             print("  " * indent + f"- {n['number']} {n['title']}")
             print_tree(n["children"], indent + 1)
 
+def get_results(path):
+    tree = build_tree_by_numbering(f"../../{path}")
     print_tree(tree)
-
-    with open("../results/parsed.json", "w", encoding="utf-8") as f:
+    with open("../results/header_numbers.json", "w", encoding="utf-8") as f:
         json.dump(tree, f, ensure_ascii=False, indent=2)

@@ -12,7 +12,6 @@ from docx.table import Table
 from docx.oxml.ns import qn
 
 
-# -------------------- Поиск изображений в run --------------------
 def extract_image_rids_from_run(run) -> List[str]:
     r = run._r
     blips = r.xpath(".//*[local-name()='blip']")
@@ -25,13 +24,11 @@ def extract_image_rids_from_run(run) -> List[str]:
 
 
 def resolve_image_part(doc: Document, rid: str) -> Tuple[bytes, str]:
-    part = doc.part.related_parts[rid]  # ImagePart
+    part = doc.part.related_parts[rid]
     blob = part.blob
-    filename = str(part.partname).split("/")[-1]  # /word/media/image1.png -> image1.png
+    filename = str(part.partname).split("/")[-1] 
     return blob, filename
 
-
-# -------------------- Подписи (caption) --------------------
 
 FIG_CAPTION_RE = re.compile(
     "Рисунок\s+\d+\.\d+"
@@ -48,22 +45,17 @@ def parse_figure_caption(text: str) -> Optional[Dict[str, str]]:
     return {"number": m.group("num"), "title": m.group("title").strip()}
 
 
-# -------------------- Важно: обходим ВСЕ абзацы (в т.ч. внутри таблиц) --------------------
 def iter_paragraphs_in_table(table: Table) -> Iterator[Paragraph]:
     for row in table.rows:
         for cell in row.cells:
-            # абзацы в ячейке
             for p in cell.paragraphs:
                 yield p
-            # вложенные таблицы
             for t in cell.tables:
                 yield from iter_paragraphs_in_table(t)
 
 def iter_all_paragraphs(doc: Document) -> Iterator[Paragraph]:
-    # абзацы верхнего уровня
     for p in doc.paragraphs:
         yield p
-    # абзацы внутри таблиц верхнего уровня
     for t in doc.tables:
         yield from iter_paragraphs_in_table(t)
 
@@ -74,7 +66,6 @@ def paragraph_has_image(p: Paragraph) -> bool:
     return False
 
 
-# Чтобы найти подпись "рядом", нам нужен список всех Paragraph в порядке обхода
 def build_paragraph_stream(doc: Document) -> List[Paragraph]:
     return list(iter_all_paragraphs(doc))
 
@@ -123,12 +114,11 @@ def pick_caption_nearby(
     return "", "", ""
 
 
-# -------------------- Результат --------------------
 @dataclass
 class FoundImage:
     image_index: int
     rid: str
-    paragraph_index: int  # индекс в потоке всех paragraph (включая таблицы)
+    paragraph_index: int
     run_index: int
     saved_path: str
     original_filename: str
@@ -153,7 +143,6 @@ def extract_images_to_folder_and_json(
     image_counter = 0
 
     for pi, p in enumerate(paras):
-        # быстрый пропуск, если нет картинок
         if not paragraph_has_image(p):
             continue
 
@@ -199,12 +188,13 @@ def extract_images_to_folder_and_json(
     return payload
 
 
-if __name__ == "__main__":
+def get_results(path):
     result = extract_images_to_folder_and_json(
-        "../../input.docx",       # <-- твой файл
+        f"../../{path}",
         out_dir="../images_out",
         json_path="../results/images.json",
         prefer_caption_below=True,
         caption_window=2,
     )
     print(f"OK: extracted {result['images_total']} images -> {result['output_dir']}, json -> images.json")
+

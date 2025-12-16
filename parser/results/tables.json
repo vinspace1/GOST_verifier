@@ -1,0 +1,46 @@
+[
+  {
+    "table_index": 1,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 1,
+      "after_paragraph_index": 1,
+      "prev_paragraph_text": "<Наименование организации>"
+    }
+  },
+  {
+    "table_index": 2,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 130,
+      "after_paragraph_index": 129,
+      "prev_paragraph_text": "В настоящем документе используются следующие сокращения:"
+    }
+  },
+  {
+    "table_index": 3,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 191,
+      "after_paragraph_index": 189,
+      "prev_paragraph_text": null
+    }
+  },
+  {
+    "table_index": 4,
+    "caption_text": null,
+    "match": false,
+    "where_found": null,
+    "position": {
+      "block_index": 200,
+      "after_paragraph_index": 197,
+      "prev_paragraph_text": "Например:"
+    }
+  }
+]

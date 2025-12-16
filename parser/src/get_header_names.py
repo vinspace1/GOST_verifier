@@ -30,8 +30,5 @@ def split_by_sections(docx_path: str) -> list[dict]:
 
     return sections
 
-if __name__ == "__main__":
-    sections = split_by_sections("../../input.docx")
-    for s in sections:
-        print("###", s["title"])
-        # print(s["content_text"][:400], "...\n")
+def get_results(path):
+    split_by_sections(f"../../{path}")
