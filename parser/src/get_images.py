@@ -75,10 +75,6 @@ def pick_caption_nearby(
     prefer_below: bool = True,
     window: int = 2,
 ) -> Tuple[str, str, str]:
-    """
-    Ищем подпись рядом с абзацем idx (который содержит картинку).
-    Сначала вниз, потом вверх (или наоборот).
-    """
     def try_para(i: int) -> Optional[Tuple[str, str, str]]:
         if i < 0 or i >= len(paras):
             return None
@@ -190,7 +186,7 @@ def extract_images_to_folder_and_json(
 
 def get_results(path):
     result = extract_images_to_folder_and_json(
-        f"../../{path}",
+        path,
         out_dir="../images_out",
         json_path="../results/images.json",
         prefer_caption_below=True,
@@ -198,3 +194,5 @@ def get_results(path):
     )
     print(f"OK: extracted {result['images_total']} images -> {result['output_dir']}, json -> images.json")
 
+if __name__ == '__main__':
+    get_results("../../input.docx")

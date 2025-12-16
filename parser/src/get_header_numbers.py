@@ -7,27 +7,18 @@ from typing import List, Dict, Any, Optional
 import json
 from docx import Document
 
-# 1 Заголовок
-# 1. Заголовок
-# 1) Заголовок
-# 1.2 Заголовок
-# 1.2) Заголовок
-# 1.2.3 Заголовок
-# 1.2.3. Заголовок
+
 NUM_HEADING_RE = re.compile(
-    r"^\s*(?P<num>\d+(?:\.\d+)*)\s*(?:[.)])?\s+(?P<title>.+?)\s*$"
+    r"^\d+(\.\d+)*\s+.+$"
 )
 
 def parse_numbered_heading(text: str) -> Optional[tuple[str, str, int]]:
-    """
-    Возвращает (num, title, level) или None, если это не нумерованный заголовок.
-    level = глубина номера: 1.2.3 -> 3
-    """
     m = NUM_HEADING_RE.match(text or "")
     if not m:
         return None
-    num = m.group("num")
-    title = m.group("title").strip()
+    name = m.group(0)
+    num = name.split()[0]
+    title = name.split()[1].strip()
     level = len(num.split("."))
     return num, title, level
 
@@ -46,7 +37,6 @@ def build_tree_by_numbering(docx_path: str) -> List[Dict[str, Any]]:
     stack: List[Node] = [root]
 
     def attach(node: Node):
-        # Поднимаемся до родителя с меньшим уровнем номера
         while stack and stack[-1].level >= node.level:
             stack.pop()
         stack[-1].children.append(node)
@@ -62,10 +52,8 @@ def build_tree_by_numbering(docx_path: str) -> List[Dict[str, Any]]:
             num, title, lvl = parsed
             attach(Node(number=num, title=title, level=lvl))
         else:
-            # Обычный текст — в текущий узел (если уже встретили хоть один заголовок)
             if len(stack) > 1:
                 stack[-1].content.append(text)
-            # иначе игнорируем "преамбулу" до первого нумерованного заголовка
 
     def to_dict(n: Node) -> Dict[str, Any]:
         return {
@@ -85,7 +73,10 @@ def print_tree(nodes, indent=0):
             print_tree(n["children"], indent + 1)
 
 def get_results(path):
-    tree = build_tree_by_numbering(f"../../{path}")
+    tree = build_tree_by_numbering(path)
     print_tree(tree)
     with open("../results/header_numbers.json", "w", encoding="utf-8") as f:
         json.dump(tree, f, ensure_ascii=False, indent=2)
+
+if __name__ == '__main__':
+    get_results("../../input.docx")

@@ -1,7 +1,7 @@
 [
   {
     "number": "1",
-    "title": "Введение\t6",
+    "title": "Введение",
     "level": 1,
     "content": [],
     "content_text": "",
@@ -9,14 +9,14 @@
   },
   {
     "number": "2",
-    "title": "Термины, определения и сокращения\t7",
+    "title": "Термины,",
     "level": 1,
     "content": [],
     "content_text": "",
     "children": [
       {
         "number": "2.1",
-        "title": "Термины и определения\t7",
+        "title": "Термины",
         "level": 2,
         "content": [],
         "content_text": "",
@@ -24,7 +24,7 @@
       },
       {
         "number": "2.2",
-        "title": "Сокращения\t8",
+        "title": "Сокращения",
         "level": 2,
         "content": [],
         "content_text": "",
@@ -34,7 +34,7 @@
   },
   {
     "number": "3",
-    "title": "Цель испытаний\t8",
+    "title": "Цель",
     "level": 1,
     "content": [],
     "content_text": "",
@@ -42,7 +42,7 @@
   },
   {
     "number": "4",
-    "title": "Объект испытаний\t8",
+    "title": "Объект",
     "level": 1,
     "content": [],
     "content_text": "",
@@ -50,7 +50,7 @@
   },
   {
     "number": "5",
-    "title": "Заключение\t12",
+    "title": "Заключение",
     "level": 1,
     "content": [],
     "content_text": "",
@@ -58,7 +58,7 @@
   },
   {
     "number": "6",
-    "title": "Выводы\t14",
+    "title": "Выводы",
     "level": 1,
     "content": [],
     "content_text": "",
@@ -66,7 +66,7 @@
   },
   {
     "number": "7",
-    "title": "Обобщенная летная оценка\t16",
+    "title": "Обобщенная",
     "level": 1,
     "content": [],
     "content_text": "",
@@ -74,7 +74,7 @@
   },
   {
     "number": "8",
-    "title": "Рекомендации в эксплуатационную документацию\t17",
+    "title": "Рекомендации",
     "level": 1,
     "content": [
       "Приложение А <Наименование приложения> (обязательное/рекомендованное/справочное)\t18",

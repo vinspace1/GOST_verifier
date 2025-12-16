@@ -8,16 +8,8 @@ from docx import Document
 from docx.text.paragraph import Paragraph
 import json
 
-# Heading N / Заголовок N
 HEADING_RE = re.compile(r"^(heading|заголовок)\s*(\d+)$", re.IGNORECASE)
 
-# Номер в начале заголовка:
-# 1. Название
-# 1.2 Название
-# 1.2.3 Название
-# 1) Название
-# 1.2) Название
-# 1.2.3) Название
 HEADING_NUM_RE = re.compile(
     r"^\s*(?P<num>\d+(?:\.\d+)*)(?:[.)])?\s+(?P<title>.+?)\s*$"
 )
@@ -71,7 +63,7 @@ def split_by_sections_with_nesting_text_numbering(docx_path: str) -> List[Dict[s
             node = SectionNode(number=num, title=title, level=lvl)
             attach(node)
         else:
-            if len(stack) > 1:  # игнорируем текст до первого заголовка
+            if len(stack) > 1:
                 stack[-1].content.append(text)
 
     def to_dict(n: SectionNode) -> Dict[str, Any]:
@@ -93,7 +85,10 @@ def print_tree(nodes, indent=0):
         print_tree(n["children"], indent + 1)
 
 def get_result(path):
-    tree = split_by_sections_with_nesting_text_numbering(f"../../{path}")
+    tree = split_by_sections_with_nesting_text_numbering(path)
     print(tree)
     with open("../results/content_tree.json", "w", encoding="utf-8") as f:
         json.dump(tree, f, ensure_ascii=False, indent=2)
+
+if __name__ == '__main__':
+    get_result("../../input.docx")

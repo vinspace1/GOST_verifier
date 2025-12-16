@@ -15,8 +15,8 @@ class TableCheckResult:
     match: bool
     where_found: Optional[str]
 
-    block_index: int                 # позиция среди всех блоков (p+tbl)
-    after_paragraph_index: int        # сколько абзацев было до таблицы
+    block_index: int
+    after_paragraph_index: int
     prev_paragraph_text: Optional[str]
 
 
@@ -42,19 +42,28 @@ def iter_block_items_in_order(doc: Document):
         elif child.tag.endswith("}tbl"):
             yield Table(child, doc)
 
-def _find_caption_before_table(blocks: List[Tuple[str, object]], tbl_pos: int, lookback: int = 5):
-    for k in range(1, lookback + 1):
-        j = tbl_pos - k
-        if j < 0:
+def _find_caption_after_table(
+    blocks: List[Tuple[str, object]],
+    tbl_pos: int,
+    lookahead: int = 5
+) -> Tuple[Optional[str], Optional[str]]:
+
+    for k in range(1, lookahead + 1):
+        j = tbl_pos + k
+        if j >= len(blocks):
             break
+
         kind, obj = blocks[j]
         if kind != "p":
             continue
+
         text = _normalize(obj.text)
         if not text:
             continue
+
         if CAPTION_RE.search(text):
-            return text, ("prev_paragraph" if k == 1 else f"prev_{k}")
+            return text, ("next_paragraph" if k == 1 else f"next_{k}")
+
     return None, None
 
 def _prev_paragraph_text(blocks: List[Tuple[str, object]], tbl_pos: int) -> Optional[str]:
@@ -65,7 +74,7 @@ def _prev_paragraph_text(blocks: List[Tuple[str, object]], tbl_pos: int) -> Opti
             return t if t else None
     return None
 
-def check_tables_captions(docx_path: str, lookback: int = 5) -> List[TableCheckResult]:
+def check_tables_captions(docx_path: str, lookahead: int = 5) -> List[TableCheckResult]:
     doc = Document(docx_path)
 
     blocks: List[Tuple[str, object]] = []
@@ -74,7 +83,7 @@ def check_tables_captions(docx_path: str, lookback: int = 5) -> List[TableCheckR
 
     results: List[TableCheckResult] = []
     table_counter = 0
-    paragraph_counter = 0  # считаем абзацы по ходу
+    paragraph_counter = 0
 
     for i, (kind, obj) in enumerate(blocks):
         if kind == "p":
@@ -84,7 +93,9 @@ def check_tables_captions(docx_path: str, lookback: int = 5) -> List[TableCheckR
         # kind == "tbl"
         table_counter += 1
 
-        caption, where = _find_caption_before_table(blocks, i, lookback=lookback)
+        caption, where = _find_caption_after_table(
+            blocks, i, lookahead=lookahead
+        )
         ok = bool(caption and CAPTION_RE.search(caption))
 
         results.append(TableCheckResult(
@@ -116,7 +127,9 @@ def results_to_dict(results):
     ]
 
 def get_results(path):
-    results = check_tables_captions(f"../../{path}", lookback=7)
+    results = check_tables_captions(path, lookahead=7)
     with open("../results/tables.json", "w", encoding="utf-8") as f:
             json.dump(results_to_dict(results), f, ensure_ascii=False, indent=2)
 
+if __name__ == '__main__':
+    get_results("../../input.docx")
